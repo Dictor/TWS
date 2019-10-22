@@ -145,12 +145,12 @@ void SendAllData() {
 
   /* Send dynamic sensor event data*/
   DynamicSensorEvent nowevent;
-  while(xQueueReceive(DynamicSensorEvents, &nowevent, 0) == pdPASS)) {
-    Serial.print(F('EVENT,'));
-    Serial.print(nowevent->time);
+  while(xQueueReceive(DynamicSensorEvents, &nowevent, 0) == pdPASS) {
+    Serial.print(F("EVENT,"));
+    Serial.print(nowevent.time);
     Serial.print(F(","));
-    Serial.print(nowevent->kind);
+    Serial.print(nowevent.kind);
     Serial.print(F(","));
-    Serial.println(nowevent->data);
+    Serial.println(nowevent.data);
   }
 }
