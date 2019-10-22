@@ -55,6 +55,18 @@
     class model {
         public static function UseDB() {
             return DB::Open(config::DB_PATH);
-		}
+        }
+        
+        public static function GetLogs(int $daysbefore) {
+
+        }
+
+        public static function GetEvents(int $daysbefore) {
+
+        }
+
+        public static function GetSensorData(int $daysbefore) {
+            
+        }
     }
 ?>
