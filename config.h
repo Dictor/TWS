@@ -13,3 +13,10 @@
 
 /* Time Configuration */
 #define TERM_STATICSENSOR_SEND_MS 10000
+
+/* Calibration Configuration */
+#define CALIB_ANT_MIDDLE 512
+#define CALIB_ANT_DERIV_LIMIT 10
+#define CALIB_ANT_RESET_MS 10000
+#define CALIB_CDS_DERIV_LIMIT 10
+#define CALIB_CDS_RESET_MS 10000
