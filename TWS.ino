@@ -98,7 +98,7 @@ void tskMonitorDynamicSensor(void *pvParameters) {
     if (abs(CALIB_ANT_MIDDLE - analogRead(PIN_ANTTENA)) >= CALIB_ANT_DERIV_LIMIT) LastAntennaCount++;
     if (millis() - LastAntennaCountResetTime > CALIB_ANT_RESET_MS) {
       if (LastAntennaCount >= CALIB_ANT_DERIV_LIMIT) {
-        AddDynamicSensorEvent(KIND_GLARE, LastAntennaCount);
+        AddDynamicSensorEvent(KIND_ANTENNA, LastAntennaCount);
       }
       LastAntennaCountResetTime = millis();
       LastAntennaCount = 0;
@@ -117,7 +117,7 @@ void tskMonitorDynamicSensor(void *pvParameters) {
                           (lastestCds.horizon3 - LastCdsValue.horizon3)) / timeDeriv) / 4);
     if (millis() - LastGlareValueResetTime > CALIB_CDS_RESET_MS) {
       if (LastGlareValue >= CALIB_CDS_DERIV_LIMIT) {
-        AddDynamicSensorEvent(KIND_ANTENNA, LastGlareValue);
+        AddDynamicSensorEvent(KIND_GLARE, LastGlareValue);
       }
       LastGlareValueResetTime = millis();
       LastGlareValue = 0;
