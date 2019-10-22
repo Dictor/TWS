@@ -33,7 +33,7 @@ enum DynamicSensorKind {
 typedef struct _DynamicSensorEvent {
   DynamicSensorKind kind;
   long time;
-  char data;
+  int data;
 } DynamicSensorEvent;
 
 
@@ -153,8 +153,8 @@ void SendAllData() {
     Serial.print(F("EVENT,"));
     Serial.print(nowevent.time);
     Serial.print(F(","));
-    Serial.print(nowevent.kind);
+    Serial.print(nowevent.kind == KIND_ANTENNA ? F("ANT") : F("CDS"));
     Serial.print(F(","));
-    Serial.println(nowevent.data);
+    Serial.println(nowevent.data, DEC);
   }
 }
