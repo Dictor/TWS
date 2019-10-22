@@ -1,4 +1,5 @@
 #include <Arduino_FreeRTOS.h>
+#include <queue.h>
 #include <SimpleDHT.h>
 #include "config.h"
 
