@@ -111,10 +111,10 @@ void tskMonitorDynamicSensor(void *pvParameters) {
     lastestCds.horizon2 = analogRead(PIN_CDS_HORIZON2);
     lastestCds.horizon3 = analogRead(PIN_CDS_HORIZON3);
     int timeDeriv = lastestCds.time - LastCdsValue.time;
-    LastGlareValue += abs((((lastestCds.vertical - lastestCds.vertical) +
-                          (lastestCds.horizon1 - lastestCds.horizon1) +
-                          (lastestCds.horizon2 - lastestCds.horizon2) +
-                          (lastestCds.horizon3 - lastestCds.horizon3)) / timeDeriv) / 4);
+    LastGlareValue += abs((((lastestCds.vertical - LastCdsValue.vertical) +
+                          (lastestCds.horizon1 - LastCdsValue.horizon1) +
+                          (lastestCds.horizon2 - LastCdsValue.horizon2) +
+                          (lastestCds.horizon3 - LastCdsValue.horizon3)) / timeDeriv) / 4);
     if (millis() - LastGlareValueResetTime > CALIB_CDS_RESET_MS) {
       if (LastGlareValue >= CALIB_CDS_DERIV_LIMIT) {
         AddDynamicSensorEvent(KIND_ANTENNA, LastGlareValue);
