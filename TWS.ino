@@ -21,8 +21,8 @@ typedef struct _StaticSensorValue {
   long time;
   int water;
   int sound;
-  int temp;
-  int humi;
+  byte temp;
+  byte humi;
 } StaticSensorValue;
 
 enum DynamicSensorKind {
