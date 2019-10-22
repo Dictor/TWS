@@ -49,11 +49,20 @@ SimpleDHT11 dht(PIN_DHT);
 
 
 void setup() {
-
+  Serial.begin(9600);
+  DynamicSensorEvents = xQueueCreate(10, sizeof(DynamicSensorEvent));
+  if (DynamicSensorEvents != NULL) {
+    xTaskCreate(tskSendStaticSensor, "SendStaticSensor", 128, NULL, 2, NULL);
+    xTaskCreate(tskMonitorDynamicSensor, "MonitorDynamicSensor", 128, NULL, 1, NULL);
+    Serial.println("ERROR,OS_INIT_SUCCESS");
+  } else {
+    Serial.println("ERROR,OS_INIT_FAIL");
+  }
 }
 
 void loop() {
-
+  vTaskStartScheduler();
+  for(;;);
 }
 
 void tskSendStaticSensor(void *pvParameters) {
@@ -117,7 +126,7 @@ void AddDynamicSensorEvent(DynamicSensorKind evtkind, int data) {
   addevt.kind = evtkind;
   addevt.time = millis();
   addevt.data = data;
-  xQueueSendToBack(DynamicSensorEvents, &addevt, 0);
+  if (xQueueSendToBack(DynamicSensorEvents, &addevt, 0) == errQUEUE_FULL) Serial.println("ERROR,OS_QUEUE_FULL");
 }
 
 void SendAllData() {
