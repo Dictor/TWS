@@ -21,8 +21,8 @@ typedef struct _StaticSensorValue {
   long time;
   int water;
   int sound;
-  byte temp;
-  byte humi;
+  int temp;
+  int humi;
 } StaticSensorValue;
 
 enum DynamicSensorKind {
@@ -74,8 +74,12 @@ void tskSendStaticSensor(void *pvParameters) {
     /* Read static sensors value */
     LastStaticSensorValue.time = millis();
     dhterr = SimpleDHTErrSuccess;
-    if ((dhterr = dht.read(&(LastStaticSensorValue.temp), &(LastStaticSensorValue.humi), NULL)) != SimpleDHTErrSuccess) {
+    byte tmpTemp, tmpHumi;
+    if ((dhterr = dht.read(&tmpTemp, &tmpHumi, NULL)) != SimpleDHTErrSuccess) {
       LastStaticSensorValue.humi = -1; // -1 of humi indicates dht sensor has error
+    } else {
+      LastStaticSensorValue.temp = (int)tmpTemp;
+      LastStaticSensorValue.humi = (int)tmpHumi;
     }
     LastStaticSensorValue.sound = analogRead(PIN_SOUND);
     LastStaticSensorValue.water = analogRead(PIN_WATER); //ADC의 입력 임피던스에 (10k<) 따라 첫번쨰 값을 버려야 할 수도 있다
