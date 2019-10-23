@@ -33,5 +33,5 @@ while(True):
     if pbtString[0] == "STATIC":
         HTTPGetRequest({"KIND": "SENSOR", "DATA": pbtString[1] + "," + pbtString[2] + "," + pbtString[3] + "," + pbtString[4], "TIME": RuntimeToRealtime(pbtString[5])})
     elif pbtString[0] == "EVENT":
-        HTTPGetRequest({"KIND": "SENSOR", "DATA": pbtString[2] + "," + pbtString[3], "TIME": RuntimeToRealtime(pbtString[1])})
+        HTTPGetRequest({"KIND": "EVENT", "DATA": pbtString[2] + "," + pbtString[3], "TIME": RuntimeToRealtime(pbtString[1])})
 mainSerial.close()
