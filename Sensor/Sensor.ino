@@ -52,20 +52,20 @@ SimpleDHT11 dht(PIN_DHT);
 
 void setup() {
   Serial.begin(9600);
-  DynamicSensorEvents = xQueueCreate(20, sizeof(DynamicSensorEvent));
+  DynamicSensorEvents = xQueueCreate(10, sizeof(DynamicSensorEvent));
   if (DynamicSensorEvents != NULL) {
-    xTaskCreate(tskSendStaticSensor, "SendStaticSensor", 128, NULL, 2, NULL);
-    xTaskCreate(tskMonitorDynamicSensor, "MonitorDynamicSensor", 128, NULL, 1, NULL);
-    xTaskCreate(tskSendEvent, "SendEvent", 128, NULL, 2, NULL);
-    Serial.println("ERROR,OS_INIT_SUCCESS");
+    xTaskCreate(tskSendStaticSensor, "SendStaticSensor", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+    xTaskCreate(tskMonitorDynamicSensor, "MonitorDynamicSensor", configMINIMAL_STACK_SIZE, NULL, 1, NULL);
+    xTaskCreate(tskSendEvent, "SendEvent", configMINIMAL_STACK_SIZE, NULL, 2, NULL);
+    Serial.println(F("ERROR,OS_INIT_SUCCESS"));
   } else {
-    Serial.println("ERROR,OS_INIT_FAIL");
+    Serial.println(F("ERROR,OS_INIT_FAIL"));
   }
 }
 
 void loop() {
   vTaskStartScheduler();
-  for(;;);
+  for(;;) Serial.println(F("ERROR,SCHEDULER_FAIL"));
 }
 
 void tskSendStaticSensor(void *pvParameters) {
@@ -131,9 +131,11 @@ void tskMonitorDynamicSensor(void *pvParameters) {
 void tskSendEvent(void *pvParameters) {
   (void) pvParameters;
 
-  /* Send Data through BT */
-  SendEventData();
-  vTaskDelay(TERM_EVENT_SEND_MS / portTICK_PERIOD_MS);
+  for (;;) {
+    /* Send Data through BT */
+    SendEventData();
+    vTaskDelay(TERM_EVENT_SEND_MS / portTICK_PERIOD_MS);
+  }
 }
 
 void AddDynamicSensorEvent(DynamicSensorKind evtkind, int data) {
