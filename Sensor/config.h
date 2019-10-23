@@ -12,7 +12,8 @@
 #define PIN_ERR_LED 13
 
 /* Time Configuration */
-#define TERM_STATICSENSOR_SEND_MS 3000
+#define TERM_STATICSENSOR_SEND_MS 60000
+#define TERM_EVENT_SEND_MS 5000
 
 /* Calibration Configuration */
 #define CALIB_ANT_MIDDLE 0

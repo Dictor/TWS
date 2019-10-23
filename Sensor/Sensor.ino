@@ -5,6 +5,7 @@
 
 /* Task declaration */
 void tskSendStaticSensor(void *pvParameters);
+void tskSendEvent(void *pvParameters);
 void tskMonitorDynamicSensor(void *pvParameters);
 
 
@@ -51,10 +52,11 @@ SimpleDHT11 dht(PIN_DHT);
 
 void setup() {
   Serial.begin(9600);
-  DynamicSensorEvents = xQueueCreate(10, sizeof(DynamicSensorEvent));
+  DynamicSensorEvents = xQueueCreate(20, sizeof(DynamicSensorEvent));
   if (DynamicSensorEvents != NULL) {
     xTaskCreate(tskSendStaticSensor, "SendStaticSensor", 128, NULL, 2, NULL);
     xTaskCreate(tskMonitorDynamicSensor, "MonitorDynamicSensor", 128, NULL, 1, NULL);
+    xTaskCreate(tskSendEvent, "SendEvent", 128, NULL, 2, NULL);
     Serial.println("ERROR,OS_INIT_SUCCESS");
   } else {
     Serial.println("ERROR,OS_INIT_FAIL");
@@ -85,7 +87,7 @@ void tskSendStaticSensor(void *pvParameters) {
     LastStaticSensorValue.water = analogRead(PIN_WATER); //ADC의 입력 임피던스에 (10k<) 따라 첫번쨰 값을 버려야 할 수도 있다
 
     /* Send Data through BT */
-    SendAllData();
+    SendStaticData();
     vTaskDelay(TERM_STATICSENSOR_SEND_MS / portTICK_PERIOD_MS);
   }
 }
@@ -126,6 +128,14 @@ void tskMonitorDynamicSensor(void *pvParameters) {
   }
 }
 
+void tskSendEvent(void *pvParameters) {
+  (void) pvParameters;
+
+  /* Send Data through BT */
+  SendEventData();
+  vTaskDelay(TERM_EVENT_SEND_MS / portTICK_PERIOD_MS);
+}
+
 void AddDynamicSensorEvent(DynamicSensorKind evtkind, int data) {
   DynamicSensorEvent addevt;
   addevt.kind = evtkind;
@@ -134,7 +144,7 @@ void AddDynamicSensorEvent(DynamicSensorKind evtkind, int data) {
   if (xQueueSendToBack(DynamicSensorEvents, &addevt, 0) == errQUEUE_FULL) Serial.println("ERROR,OS_QUEUE_FULL");
 }
 
-void SendAllData() {
+void SendStaticData() {
   /* Send static sensor data */
   Serial.print(F("STATIC,"));
   Serial.print(LastStaticSensorValue.temp);
@@ -146,7 +156,9 @@ void SendAllData() {
   Serial.print(LastStaticSensorValue.water);
   Serial.print(F(","));
   Serial.println(LastStaticSensorValue.time);
+}
 
+void SendEventData() {
   /* Send dynamic sensor event data*/
   DynamicSensorEvent nowevent;
   while(xQueueReceive(DynamicSensorEvents, &nowevent, 0) == pdPASS) {
