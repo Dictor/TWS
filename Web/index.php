@@ -80,9 +80,7 @@
                                 <h5 class="card-title">최근 경보</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">관측된 최근 경보 상황</h6>
                                 <p class="card-text">
-                                <ul class="list-group list-group-flush" id="lastest-event">
-                                    <li class="list-group-item">Cras justo odio</li>
-                                </ul>    
+                                <ul class="list-group list-group-flush" id="lastest-event"></ul>    
                                 </p>
                             </div>
                         </div>
