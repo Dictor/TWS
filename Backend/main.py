@@ -4,6 +4,8 @@ import datetime
 import math
 
 CONFIG_SERIAL_PORT = "COM3"
+CONFIG_SERVER = "http://localhost/insert.php"
+
 lastestRuntimeMillis = 0
 lastestRuntimeReal = 0
 mainSerial = serial.Serial(CONFIG_SERIAL_PORT)
@@ -11,7 +13,7 @@ mainSerial.timeout = None
 print(mainSerial.name + ' Opened!')
 
 def HTTPGetRequest(params):
-    requests.get("http://localhost/insert.php", params=params)
+    requests.get(CONFIG_SERVER, params=params)
 
 def RuntimeToRealtime(runtime):
     global lastestRuntimeMillis, lastestRuntimeReal
