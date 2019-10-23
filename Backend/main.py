@@ -22,8 +22,8 @@ def RuntimeToRealtime(runtime):
         lastestRuntimeReal = datetime.datetime.now()
         return lastestRuntimeReal.isoformat()
     else:
-        lastestRuntimeMillis = int(runtime)
         lastestRuntimeReal += datetime.timedelta(0, math.floor((int(runtime) - lastestRuntimeMillis) / 1000))
+        lastestRuntimeMillis = int(runtime)
         return lastestRuntimeReal.isoformat()
 
 while(True):
