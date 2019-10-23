@@ -17,8 +17,11 @@
 	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	</head> 	
-    <body>
+	
+        <link rel="stylesheet" href="./style.css">
+        <script src="./script.js"></script>
+    </head> 	
+    <body onload="javascript:showPage(0)">
         <script>
             <?php 
                 if (Model::UseDB() != 0) {
@@ -38,15 +41,58 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                    <a class="nav-link" href="#">대시보드 <span class="sr-only">(current)</span></a>
+                    <a class="nav-link" href="javascript:showPage(0)">대시보드 <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">로그</a>
+                    <a class="nav-link" href="javascript:showPage(1)">로그</a>
                 </li>
             </div>
         </nav>
-        <div id="page-dashboard"></div>
-        <div id="page-log">
+        <div id="page-dashboard" class="page-div-hide">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">시스템 상태</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">현재 시스템의 전원, 동작 상태</h6>
+                                <p class="card-text">컨텐츠</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">현재 온습도</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 온습도</h6>
+                                <p class="card-text">컨텐츠</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">현재 강수량</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 강수량</h6>
+                                <p class="card-text">컨텐츠</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">최근 경보</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 경보 상황</h6>
+                                <p class="card-text">컨텐츠</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="page-log" class="page-div-hide">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>

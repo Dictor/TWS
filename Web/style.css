@@ -1,0 +1,15 @@
+.page-div-hide {
+    display: none;
+}
+
+.page-div-show {
+    display: visible;
+}
+
+#page-dashboard > .container-fluid {
+    padding : 15px;
+}
+
+#page-dashboard .card {
+    margin-bottom: 15px;;
+}
