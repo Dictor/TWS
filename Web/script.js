@@ -49,8 +49,11 @@ function setSystemCard() {
 
 function setEventCard() {
     $("#lastest-event").html("");
+    var i = 0;
     jsEvt.forEach(function(nowele) {
         document.getElementById("lastest-event").innerHTML += '<li class="list-group-item">' + moment(nowele["time"]).fromNow() + (nowele["time"] == "CDS" ? " 섬광" : " 전자기장") + " 감지 </li>";
+        i++; 
+        if (i > 5) break;
     });
 }
 
