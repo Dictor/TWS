@@ -40,7 +40,7 @@
                 echo 'var jsLog = '.json_encode(Model::GetLogs(-1)).";\n";
                 echo '            var jsEvt = '.json_encode(Model::GetEvents(-1)).";\n";
                 echo '            var jsSen = '.json_encode(Model::GetSensorData(-1)).";\n";
-                echo '            var jsBoot = '.json_encode(Model::GetBootLog()).";\n";
+                echo '            var jsErr = '.json_encode(Model::GetErrorLog()).";\n";
             ?>
             setTempHumiCard();
         </script>   
@@ -69,8 +69,10 @@
                                 <h6 class="card-subtitle mb-2 text-muted">현재 시스템의 전원, 동작 상태</h6>
                                 <div class="card-text">
                                     <span class="service-icon icon"><i class="icon-power"></i></span><span id="lastest-boot" class="lastest-title"></span><br>
-                                    <span class="service-icon icon"><i class="icon-paper-plane"></i></span><span id="lastest-recieve" class="lastest-title"></span>
-                                </div>
+                                    <span class="service-icon icon"><i class="icon-paper-plane"></i></span><span id="lastest-recieve" class="lastest-title"></span><br>
+                                    <span class="service-icon icon"><i class="icon-info"></i></span><span id="lastest-info" class="lastest-title"></span><br>
+                                    <span class="service-icon icon"><i class="icon-exclamation"></i></span><span id="lastest-error" class="lastest-title"></span>
+                                </div> 
                             </div>
                         </div>
                     </div>
@@ -80,6 +82,7 @@
                                 <h5 class="card-title">최근 경보</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">관측된 최근 경보 상황</h6>
                                 <p class="card-text">
+                                <span class="service-icon icon"><i class="icon-volume-2"></i></span><span id="lastest-evtresult" class="lastest-title"></span>
                                 <ul class="list-group list-group-flush" id="lastest-event"></ul>    
                                 </p>
                             </div>

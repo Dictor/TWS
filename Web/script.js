@@ -20,20 +20,20 @@ function ProcessUI() {
     Highcharts.chart('graph-temphumi', {
         chart: {type: 'line'},
         title: {text: ''},
-        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time"))},
+        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time", 30))},
         yAxis: {title: {text: ''}},
         plotOptions: {line: {dataLabels: {enabled: true}, enableMouseTracking: false}},
-        series: [{name: '온도', data: ExtractKeyArray(jsSen, "temp")}, 
-                {name: '습도', data: ExtractKeyArray(jsSen, "humi")}]
+        series: [{name: '온도', data: ExtractKeyArray(jsSen, "temp", 30)}, 
+                {name: '습도', data: ExtractKeyArray(jsSen, "humi", 30)}]
     });
 
     Highcharts.chart('graph-waterlv', {
         chart: {type: 'line'},
         title: {text: ''},
-        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time"))},
+        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time", 30))},
         yAxis: {title: {text: ''}},
         plotOptions: {line: {dataLabels: {enabled: true}, enableMouseTracking: false}},
-        series: [{name: '수위', data: ExtractKeyArray(jsSen, "water")}]
+        series: [{name: '수위', data: ExtractKeyArray(jsSen, "water", 30)}]
     });
 }
 
@@ -43,24 +43,54 @@ function setTempHumiCard() {
 }
 
 function setSystemCard() {
+    var jsBoot = [];
+    var jsPureErr = [];
+    jsErr.forEach(function(nowele) {
+        if (nowele["data"] == "ERROR,OS_INIT_SUCCESS") {
+            jsBoot.push(nowele);
+        } else {
+            jsPureErr.push(nowele);
+        }
+    });
     $("#lastest-boot").text(moment(jsBoot[jsBoot.length - 1]["time"]).fromNow() + " 장치 시작");
     $("#lastest-recieve").text(moment(jsSen[jsSen.length - 1]["time"]).fromNow() + " 최종 수신");
+    $("#lastest-error").text(jsPureErr.length + " 개의 오류");
+    $("#lastest-info").text((jsSen.length + jsEvt.length) + " 개의 데이터");
 }
 
 function setEventCard() {
     $("#lastest-event").html("");
-    var i = 0;
-    jsEvt.forEach(function(nowele) {
-        document.getElementById("lastest-event").innerHTML += '<li class="list-group-item">' + moment(nowele["time"]).fromNow() + (nowele["time"] == "CDS" ? " 섬광" : " 전자기장") + " 감지 </li>";
+    var i = 0, antcnt = 0, cdscnt = 0;
+    jsEvt.reverse().forEach(function(nowele) {
+        if (i <= 2) document.getElementById("lastest-event").innerHTML += '<li class="list-group-item">' + moment(nowele["time"]).fromNow() + (nowele["kind"] == "CDS" ? " 섬광" : " 전자기장") + " 감지 </li>";
+        if (moment(nowele["time"]).diff(moment(), "second") < 600) {
+            if (nowele["kind"] == "CDS") {
+                cdscnt++;
+            } else {
+                antcnt++;
+            }
+        }
+        if (cdscnt > 1 && antcnt > 1) {
+            $("#lastest-evtresult").text("뇌우 확실");
+            $("#lastest-evtresult").css("color","red");
+        } else if (cdscnt > 0 || antcnt > 0) {
+            $("#lastest-evtresult").text("뇌우 의심");
+            $("#lastest-evtresult").css("color","yellow");
+        } else {
+            $("#lastest-evtresult").text("뇌우 안전");
+            $("#lastest-evtresult").css("color","green");
+        }
         i++; 
-        if (i > 5) break;
     });
+
 }
 
-function ExtractKeyArray(origin, keyname) {
+function ExtractKeyArray(origin, keyname, limit) {
     var arr = [];
+    var i = 0;
     origin.forEach(function(nowele) {
-        arr.push(nowele[keyname]);
+        if (i <= limit) arr.push(nowele[keyname]);
+        i++;
     });
     return arr;
 }

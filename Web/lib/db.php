@@ -96,9 +96,10 @@
 			}
 		}
 
-		public static function GetBootLog() {
-			return DB::ResultToArray(DB::Query('SELECT * FROM log WHERE data = :osmsg', array('osmsg' => 'ERROR,OS_INIT_SUCCESS')));
+		public static function GetErrorLog() {
+			return DB::ResultToArray(DB::Query('SELECT * FROM log WHERE data LIKE :osmsg', array('osmsg' => '%ERROR,%')));
 		}
+
 	
 		public static function AddRow(string $date, string $kind, array $data) {
 			switch ($kind) {
