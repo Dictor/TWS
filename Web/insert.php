@@ -20,12 +20,12 @@
 
     Class InsertData {
         public static function Insert(string $time, string $kind, string $data) {
-            if ($kind == 'LOG' || $kind == 'EVENT' || $kind == 'SENSOR') {
-                Model::AddRow($time, $kind, explode(',', $data));
-                return TRUE;
-            } else {
-                return FALSE;
-            } 
+            switch ($kind) {
+                case 'LOG': Model::AddRow($time, $kind, array($data)); return TRUE;
+                case 'SENSOR': Model::AddRow($time, $kind, explode(',', $data)); return TRUE;
+                case 'EVENT': Model::AddRow($time, $kind, explode(',', $data)); return TRUE;
+                default: return FALSE;
+            }
         }
     }
 ?>
