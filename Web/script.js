@@ -75,7 +75,7 @@ function setEventCard() {
             $("#lastest-evtresult").css("color","red");
         } else if (cdscnt > 0 || antcnt > 0) {
             $("#lastest-evtresult").text("뇌우 의심");
-            $("#lastest-evtresult").css("color","yellow");
+            $("#lastest-evtresult").css("color","darkorange");
         } else {
             $("#lastest-evtresult").text("뇌우 안전");
             $("#lastest-evtresult").css("color","green");
