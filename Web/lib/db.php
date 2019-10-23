@@ -51,6 +51,14 @@
 			}
 			return $state->execute();
 		}
+
+		public static function ResultToArray($res) {
+			$arr = array();
+			while ($nowrow = $res->fetchArray(SQLITE3_ASSOC)){
+				if($nowrow != FALSE) $arr[] = $nowrow;
+			}
+			return $arr;
+		}
     }
 
     class Model {
@@ -59,15 +67,33 @@
         }
         
         public static function GetLogs(int $daysbefore) {
-
+			if ($daysbefore < 0) {
+				return DB::ResultToArray(DB::Query("SELECT * FROM log", array()));
+			} else {
+				$dt = new \DateTime('now');
+				$dt->sub(new \DateInterval('P'.(string)$daysbefore.'D'));
+				return DB::Query('SELECT * FROM log WHERE date(time) > date('.$dt->format('Y-m-d').');', array());
+			}
         }
 
         public static function GetEvents(int $daysbefore) {
-
+			if ($daysbefore < 0) {
+				return DB::ResultToArray(DB::Query("SELECT * FROM event", array()));
+			} else {
+				$dt = new \DateTime('now');
+				$dt->sub(new \DateInterval('P'.(string)$daysbefore.'D'));
+				return DB::Query('SELECT * FROM event WHERE date(time) > date('.$dt->format('Y-m-d').');', array());
+			}
         }
 
         public static function GetSensorData(int $daysbefore) {
-            
+            if ($daysbefore < 0) {
+				return DB::ResultToArray(DB::Query("SELECT * FROM sensor", array()));
+			} else {
+				$dt = new \DateTime('now');
+				$dt->sub(new \DateInterval('P'.(string)$daysbefore.'D'));
+				return DB::Query('SELECT * FROM sensor WHERE date(time) > date('.$dt->format('Y-m-d').');', array());
+			}
 		}
 	
 		public static function AddRow(string $date, string $kind, array $data) {
