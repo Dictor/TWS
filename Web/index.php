@@ -17,11 +17,20 @@
 	    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	
+    
+        <!--highchart-->
+        <script src="https://code.highcharts.com/highcharts.js"></script>
+        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/locale/ko.js"></script>
+        
+        <!--custom-->
         <link rel="stylesheet" href="./style.css">
         <script src="./script.js"></script>
     </head> 	
-    <body onload="javascript:showPage(0)">
+    <body onload="javacript:ProcessUI()">
         <script>
             <?php 
                 if (Model::UseDB() != 0) {
@@ -31,7 +40,9 @@
                 echo 'var jsLog = '.json_encode(Model::GetLogs(-1)).";\n";
                 echo '            var jsEvt = '.json_encode(Model::GetEvents(-1)).";\n";
                 echo '            var jsSen = '.json_encode(Model::GetSensorData(-1)).";\n";
+                echo '            var jsBoot = '.json_encode(Model::GetBootLog()).";\n";
             ?>
+            setTempHumiCard();
         </script>   
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <a class="navbar-brand" href="#">TWS</a>
@@ -56,16 +67,23 @@
                             <div class="card-body">
                                 <h5 class="card-title">시스템 상태</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">현재 시스템의 전원, 동작 상태</h6>
-                                <p class="card-text">컨텐츠</p>
+                                <div class="card-text">
+                                    <span class="service-icon icon"><i class="icon-power"></i></span><span id="lastest-boot" class="lastest-title"></span><br>
+                                    <span class="service-icon icon"><i class="icon-paper-plane"></i></span><span id="lastest-recieve" class="lastest-title"></span>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">현재 온습도</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 온습도</h6>
-                                <p class="card-text">컨텐츠</p>
+                                <h5 class="card-title">최근 경보</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 경보 상황</h6>
+                                <p class="card-text">
+                                <ul class="list-group list-group-flush" id="lastest-event">
+                                    <li class="list-group-item">Cras justo odio</li>
+                                </ul>    
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -76,16 +94,23 @@
                             <div class="card-body">
                                 <h5 class="card-title">현재 강수량</h5>
                                 <h6 class="card-subtitle mb-2 text-muted">관측된 최근 강수량</h6>
-                                <p class="card-text">컨텐츠</p>
+                                <div class="card-text">
+                                    <span id="lastest-waterlv" class="lastest-title"></span>
+                                    <div id="graph-waterlv" class="graph"></div>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title">최근 경보</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 경보 상황</h6>
-                                <p class="card-text">컨텐츠</p>
+                                <h5 class="card-title">현재 온습도</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">관측된 최근 온습도</h6>
+                                <div class="card-text">
+                                    <span id="lastest-temp" class="lastest-title"></span>
+                                    <span id="lastest-humi" class="lastest-title"></span>
+                                    <div id="graph-temphumi" class="graph"></div>
+                                </div>
                             </div>
                         </div>
                     </div>

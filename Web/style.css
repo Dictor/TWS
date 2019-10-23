@@ -13,3 +13,22 @@
 #page-dashboard .card {
     margin-bottom: 15px;;
 }
+
+.lastest-title {
+    font-weight: bold;
+    font-size: 1.8rem;
+}
+
+#lastest-humi {
+    margin-left: 1rem;
+}
+
+.graph {
+    min-width: 310px; 
+    height: 200px; 
+    margin: 0 auto
+}
+
+.icon {
+    font-size: 1.5rem;
+}

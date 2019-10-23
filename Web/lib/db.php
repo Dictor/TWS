@@ -95,6 +95,10 @@
 				return DB::Query('SELECT * FROM sensor WHERE date(time) > date('.$dt->format('Y-m-d').');', array());
 			}
 		}
+
+		public static function GetBootLog() {
+			return DB::ResultToArray(DB::Query('SELECT * FROM log WHERE data = :osmsg', array('osmsg' => 'ERROR,OS_INIT_SUCCESS')));
+		}
 	
 		public static function AddRow(string $date, string $kind, array $data) {
 			switch ($kind) {
