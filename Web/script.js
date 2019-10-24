@@ -63,7 +63,7 @@ function setEventCard() {
     var i = 0, antcnt = 0, cdscnt = 0;
     jsEvt.reverse().forEach(function(nowele) {
         if (i <= 2) document.getElementById("lastest-event").innerHTML += '<li class="list-group-item">' + moment(nowele["time"]).fromNow() + (nowele["kind"] == "CDS" ? " 섬광" : " 전자기장") + " 감지 </li>";
-        if (moment(nowele["time"]).diff(moment(), "second") < 600) {
+        if (Math.abs(moment(nowele["time"]).diff(moment(), "second")) < 600) {
             if (nowele["kind"] == "CDS") {
                 cdscnt++;
             } else {
