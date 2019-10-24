@@ -16,24 +16,25 @@ function ProcessUI() {
     setTempHumiCard();
     setSystemCard();
     setEventCard();
+    var rjsSen = jsSen.reverse();
 
     Highcharts.chart('graph-temphumi', {
         chart: {type: 'line'},
         title: {text: ''},
-        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time", 30))},
+        xAxis: {categories: TimeToSince(ExtractKeyArray(rjsSen, "time", 30).reverse())},
         yAxis: {title: {text: ''}},
         plotOptions: {line: {dataLabels: {enabled: true}, enableMouseTracking: false}},
-        series: [{name: '온도', data: ExtractKeyArray(jsSen, "temp", 30)}, 
-                {name: '습도', data: ExtractKeyArray(jsSen, "humi", 30)}]
+        series: [{name: '온도', data: ExtractKeyArray(rjsSen, "temp", 30).reverse()}, 
+                {name: '습도', data: ExtractKeyArray(rjsSen, "humi", 30).reverse()}]
     });
 
     Highcharts.chart('graph-waterlv', {
         chart: {type: 'line'},
         title: {text: ''},
-        xAxis: {categories: TimeToSince(ExtractKeyArray(jsSen, "time", 30))},
+        xAxis: {categories: TimeToSince(ExtractKeyArray(rjsSen, "time", 30).reverse())},
         yAxis: {title: {text: ''}},
         plotOptions: {line: {dataLabels: {enabled: true}, enableMouseTracking: false}},
-        series: [{name: '수위', data: ExtractKeyArray(jsSen, "water", 30)}]
+        series: [{name: '수위', data: ExtractKeyArray(rjsSen, "water", 30).reverse()}]
     });
 }
 
@@ -70,18 +71,18 @@ function setEventCard() {
                 antcnt++;
             }
         }
-        if (cdscnt > 1 && antcnt > 1) {
-            $("#lastest-evtresult").text("뇌우 확실");
-            $("#lastest-evtresult").css("color","red");
-        } else if (cdscnt > 0 || antcnt > 0) {
-            $("#lastest-evtresult").text("뇌우 의심");
-            $("#lastest-evtresult").css("color","darkorange");
-        } else {
-            $("#lastest-evtresult").text("뇌우 안전");
-            $("#lastest-evtresult").css("color","green");
-        }
         i++; 
     });
+    if (cdscnt > 1 && antcnt > 1) {
+        $("#lastest-evtresult").text("뇌우 확실");
+        $("#lastest-evtresult").css("color","red");
+    } else if (cdscnt > 0 || antcnt > 0) {
+        $("#lastest-evtresult").text("뇌우 의심");
+        $("#lastest-evtresult").css("color","darkorange");
+    } else {
+        $("#lastest-evtresult").text("뇌우 안전");
+        $("#lastest-evtresult").css("color","green");
+    }
 
 }
 
