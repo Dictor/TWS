@@ -18,6 +18,6 @@
 /* Calibration Configuration */
 #define CALIB_ANT_MIDDLE 0
 #define CALIB_ANT_DERIV_LIMIT 10
-#define CALIB_ANT_RESET_MS 200
+#define CALIB_ANT_RESET_MS 1000
 #define CALIB_CDS_DERIV_LIMIT 100
-#define CALIB_CDS_RESET_MS 200
+#define CALIB_CDS_RESET_MS 1000
