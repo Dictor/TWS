@@ -22,3 +22,6 @@ TWS는 뇌우(섬광, 전자기장)와 기상(온습도, 강수량)을 감지해
 ### **/Web/*.php**
 * PHP7 (recommend 7.3 =<)
 * sqlite3
+
+## 동작 동영상
+https://www.youtube.com/watch?v=lz7oVYvR_LQ
